@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A/B Testing Sample & Effect Size Calculator</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- On CodePen, this content goes into the HTML panel. 
+         The CSS and JS files will be automatically included from their respective CodePen panels. -->
+</head>
+<body class="p-4 sm:p-8 flex justify-center items-start min-h-screen">
+
+    <div class="w-full max-w-3xl bg-white p-6 sm:p-10 rounded-xl shadow-2xl">
+        <h1 class="text-2xl sm:text-3xl font-extrabold mb-8 text-center dc-cta-text">
+            A/B Testing Sample & Effect Size Calculator
+        </h1>
+
+        <!-- Input Section (Single Column Layout) -->
+        <div class="space-y-6">
+
+            <!-- 1. Data Type Selector (Dropdown) -->
+            <div>
+                <label for="dataTypeSelect" class="block text-sm font-medium dc-dark-text mb-2">What are you measuring?</label>
+                <select id="dataTypeSelect" class="dc-select" onchange="updateUI(); calculate()">
+                    <option value="binary">Binary (Conversion Rate, Click-Through)</option>
+                    <option value="continuous">Continuous (Revenue, Time on Page)</option>
+                </select>
+            </div>
+            
+            <!-- 2. Groups -->
+            <div>
+                <label for="groups" class="block text-sm font-medium dc-dark-text mb-2">Number of Groups</label>
+                <input type="number" id="groups" value="2" min="2" class="dc-input" oninput="calculate()">
+            </div>
+
+            <!-- 3. Confidence Level (Dropdown) -->
+            <div>
+                <label for="confidenceSelect" class="block text-sm font-medium dc-dark-text mb-2">Confidence Level</label>
+                <select id="confidenceSelect" class="dc-select" onchange="calculate()">
+                    <!-- FIX: Options reordered to 90, 95 (default), 99 -->
+                    <option value="0.90">90% (Moving fast)</option>
+                    <option value="0.95" selected>95% (Industry standard)</option>
+                    <option value="0.99">99% (Mission critical)</option>
+                </select>
+            </div>
+
+            <!-- 4. Baseline Rate/Mean -->
+            <div>
+                <label for="baseline" class="block text-sm font-medium dc-dark-text mb-2" id="baselineLabel">
+                    Baseline Rate (%)
+                </label>
+                <input type="text" id="baseline" class="dc-input dc-dark-text" oninput="handleInput('baseline')" placeholder="e.g. 50">
+                <p id="baselineHelperText" class="mt-2 text-xs text-gray-500">Example: enter 50 if the current conversion rate is 50%.</p>
+            </div>
+
+            <!-- 5. Baseline Standard Deviation (Conditional) -->
+            <div id="sdContainer" class="hidden">
+                <label for="stdDev" class="block text-sm font-medium dc-dark-text mb-2">
+                    Baseline Standard Deviation (&sigma;)
+                </label>
+                <input type="text" id="stdDev" class="dc-input dc-dark-text" oninput="handleInput('stdDev')" placeholder="">
+                <p class="mt-2 text-xs text-gray-500">Required for Continuous data only.</p>
+            </div>
+        </div>
+
+        <!-- Bi-Directional Calculation Inputs (Side-by-Side) -->
+        <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
+
+            <!-- Calculate Sample Size -->
+            <div>
+                <label for="mde" class="block text-sm font-medium dc-dark-text mb-2" id="mdeLabel">
+                    Minimum Detectable Relative Lift (%)
+                </label>
+                <input type="text" id="mde" class="dc-input dc-dark-text" oninput="handleInput('mde')" placeholder="">
+                <p id="mdeHelperText" class="mt-2 text-xs text-gray-500">
+                    The smallest relative lift (%) you want to detect. Enter 20 for a 20% relative lift (e.g., 3% baseline to 3.6%).
+                </p>
+            </div>
+
+            <!-- Calculate MDE -->
+            <div>
+                <label for="sampleSize" class="block text-sm font-medium dc-dark-text mb-2">
+                    Required Sample Size per group (N)
+                </label>
+                <input type="text" id="sampleSize" class="dc-input dc-dark-text" oninput="handleInput('n')" placeholder="">
+                <p class="mt-2 text-xs text-gray-500">This is how many users you need for each variation or how many you have access to.</p>
+            </div>
+        </div>
+        
+        <!-- Separator and Total Output Display -->
+        <div class="separator-bar"></div>
+
+        <div class="mt-4">
+            <div class="text-center">
+                <p class="text-sm font-medium dc-dark-text uppercase tracking-widest mb-2">
+                    Total Users Needed (All Groups)
+                </p>
+                <p id="totalUsersNeeded" class="text-6xl font-extrabold dc-cta-text">—</p>
+                <!-- New element for status/error messages -->
+                <p id="statusMessageOutput" class="mt-2 text-sm text-red-600 font-semibold"></p>
+            </div>
+        </div>
+        
+        <!-- Note Section -->
+        <div class="mt-10 p-4 border border-gray-100 bg-gray-50 rounded-lg">
+         <p class="text-sm text-gray-600">
+    <strong class="font-bold">Note:</strong> This tool uses the <strong>unpooled normal approximation method</strong> for binary data sample size analysis, and a <strong>standard T-test approximation</strong> for continuous data. For tests with more than two groups, a <strong>Bonferroni correction</strong> is applied. Both calculations apply a <strong>1.1x Variance Inflation Factor (VIF)</strong> for conservative planning. 80% Power is fixed.
+</p>
+        </div>
+    </div>
+</body>
+</html>
