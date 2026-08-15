@@ -29,6 +29,9 @@ body {
     font-size: 1rem; /* text-base */
     font-weight: 500; /* font-medium */
 }
+.dc-select {
+    padding-right: 2.5rem;
+}
 .dc-input:focus, .dc-select:focus {
     border-color: var(--dc-blue-cta);
     outline: none;
