@@ -127,6 +127,7 @@ function updateUI() {
  $d('baselineLabel').textContent = isContinuous ? 'Baseline Mean' : 'Baseline Rate (%)';
  $d('mdeLabel').textContent = 'Minimum Detectable Relative Lift (%)';
  $d('mde').value = ""; $d('sampleSize').value = ""; $d('statusMessageOutput').textContent = '';
+ $d('baseline').value = ""; $d('stdDev').value = "";
  $d('totalUsersNeeded').textContent = '—';
  lastInputSource = 'mde'; 
  calculate();
