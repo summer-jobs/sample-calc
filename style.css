@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+:root {
+    /* DonorsChoose Color Palette */
+    --dc-blue-cta: #3804c1;
+    --dc-text-dark: #212121;
+    --dc-border-subtle: rgba(65, 65, 66, 0.2);
+    --bg-color: #fafafa;
+    --separator-color: #3804c1; /* Match the CTA blue for the separator */
+}
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+}
+.dc-cta-text {
+    color: var(--dc-blue-cta);
+}
+/* Headings/Labels Color */
+.dc-dark-text {
+    color: var(--dc-text-dark); 
+}
+.dc-input, .dc-select {
+    border: 1px solid var(--dc-border-subtle);
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    width: 100%;
+    transition: all 0.2s;
+    background-color: white; /* Ensure consistent background for inputs/selects */
+    /* Adjusted font size and weight */
+    font-size: 1rem; /* text-base */
+    font-weight: 500; /* font-medium */
+}
+.dc-input:focus, .dc-select:focus {
+    border-color: var(--dc-blue-cta);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(56, 4, 193, 0.2);
+}
+/* Custom styling for the separator bar */
+.separator-bar {
+    width: 100px;
+    height: 4px;
+    background-color: var(--separator-color);
+    margin: 20px auto;
+    border-radius: 2px;
+}
